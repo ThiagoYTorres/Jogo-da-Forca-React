@@ -118,7 +118,20 @@ main{
   border: solid 1px darkslategrey;
  
 }
-
+.newGame{
+  padding: 10px 25px;
+  margin-top: 10px;
+  background-color: rgb(14, 134, 227);
+  border: none;
+  border-radius: 5px;
+  color: aliceblue;
+  transition: 0.3s;
+  font-weight: 500;
+}
+.newGame:hover{
+  cursor: pointer;
+  background-color: rgb(46, 153, 235);
+}
 .chances p{
   color: brown;
   font-weight: 900;
