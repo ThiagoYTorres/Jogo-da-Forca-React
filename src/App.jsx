@@ -15,18 +15,26 @@ export default function App() {
 
   const [getWord,setGetWord] = useState(0)
 
-  const [word,setWord] = useState('')
+  const [word,setWord] = useState('HELLO')
   const [selectedLetters, setSelectedLetters] = useState([])
   const [chances, setChances] = useState(0)
 
+  const gameWon = word.split("").every( el => {
+    return selectedLetters.includes(el)
+
+  })
+
+
+  console.log("GAME WON", gameWon)
+
   useEffect(() => {
-    fetch('https://random-word-api.vercel.app/api?words=1' )
+     fetch('https://random-word-api.vercel.app/api?words=1')
       .then(resp => resp.json())
-      .then(data => {
+     .then(data => {
         console.log(data)
-        setWord(data.join('').toUpperCase())})
+      setWord(data.join('').toUpperCase())})
       
-  }, [getWord])
+}, [getWord])
 
 
   const letrasArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] 
@@ -41,7 +49,7 @@ export default function App() {
           vef={vefChances}
           isSelected={wasSelected}
           isCorrect={isCorrect}
-          gameOver={chances == 8}
+          gameOver={chances == 8 || gameWon}
         />
   })
 
@@ -81,8 +89,8 @@ export default function App() {
   })
 
   console.log('HERE')
-  console.log('letras ⬇️',letrasJSX)
-  console.log('palavra ⬇️',wordJSX)
+  console.log('letras',letrasJSX)
+  console.log('palavra',wordJSX)
   console.log(selectedLetters)
  
   function newGame(){
@@ -96,7 +104,8 @@ export default function App() {
       <div className='header'>
          <h1>Jogo da Forca</h1>
       <p>Acerte a palavra em 8 tentativas!</p>
-
+  
+      
       <div className='chances-cont'>
         {chancesJSX}
       </div>
@@ -111,23 +120,25 @@ export default function App() {
       <div className='container-letras'>
         <div className='letras'>{letrasJSX}</div>
       </div>
-      {wordJSX.every( el => el.props.isSelected == true) &&
+
+      <div className='gameStatus'>
+        
+      { gameWon &&
         <div>
-        <h1 style={{marginTop:'20px'}}>VOCE GANHOU!</h1>
-          <button className='newGame' onClick={newGame}>NEW GAME</button>
+        <div style={{marginTop:'20px'}} className='gameWon'>VOCÊ GANHOU!
+        </div>
+          <button className='newGame' onClick={newGame}>NOVO JOGO</button>
         </div>
       }
-      
-      
+
       {chances == 8 && 
         <div>
-        <h1 style={{marginTop:'20px'}}>VOCE PERDEU!</h1>
-          <button className='newGame' onClick={newGame}>NEW GAME</button>
+        <h1 style={{marginTop:'20px'}} className='gameLost'>VOCÊ PERDEU!</h1>
+          <button className='newGame' onClick={newGame}>NOVO JOGO</button>
         </div>
-        
-        
         }
 
+    </div>
     </main>
   )
 }
