@@ -1,8 +1,8 @@
 import './App.css'
-import { useState,useEffect } from 'react'
-import Letra from './Letra.jsx'
-import Word from './Word.jsx'
-import Chances from './Chances.jsx'
+import { useState,useEffect, use } from 'react'
+import Letra from './Components/Letra.jsx'
+import Word from './Components/Word.jsx'
+import Chances from './Components/Chances.jsx'
 export default function App() {
 
   // const wordJSX = word.split('').map( (el) => {
@@ -18,7 +18,13 @@ export default function App() {
   const [word,setWord] = useState('HELLO')
   const [selectedLetters, setSelectedLetters] = useState([])
   const [chances, setChances] = useState(0)
+  const [theme, setTheme] = useState(false)
 
+  function toggleTheme(){
+    setTheme(prev => !prev)
+    
+  }
+console.log('Test',theme)
   const gameWon = word.split("").every( el => {
     return selectedLetters.includes(el)
 
@@ -100,11 +106,16 @@ export default function App() {
   }
 
   return (
-    <main>
+    <main className={theme ? 'dark' : null}>
+      <div>
+        <button onClick={toggleTheme}>{theme ? 'DARK': 'LIGHT' }</button>
+      </div>
       <div className='header'>
-         <h1>Jogo da Forca</h1>
-      <p>Acerte a palavra em 8 tentativas!</p>
-  
+        
+        <div className='h'>
+          <h1>Jogo da Forca</h1>
+          <p>Acerte a palavra em 8 tentativas!</p>
+        </div>
       
       <div className='chances-cont'>
         {chancesJSX}
